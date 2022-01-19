@@ -10,7 +10,9 @@ extern "C" {
  *********/
 
 #include <gleex.h>
+#include <glui.h>
 #include <mass.h>
+#include <photon.h>
 
 #include <stdio.h>
 #include <stdlib.h>

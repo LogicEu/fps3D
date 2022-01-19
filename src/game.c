@@ -3,8 +3,6 @@
 const float mouse_speed = 0.005f;
 const float speed = 15.0f;
 
-extern unsigned int lightshader;
-
 void game_init()
 {
     glee_init();
@@ -110,7 +108,7 @@ void game_quit()
     exit(EXIT_SUCCESS);
 }
 
-int main(int argc, char** argv)
+int main()
 {
     game_init();
     game_run();
