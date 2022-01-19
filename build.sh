@@ -18,12 +18,15 @@ flags=(
 )
 
 inc=(
-    -Imass/
     -Ifract/
+    -Iphoton/
+    -Imass/
     -Iutopia/
     -Iglee/
     -Igleex/
+    -Iglui/
     -Iimgtool/
+    -Iethnic/
 )
 
 lib=(
@@ -33,8 +36,11 @@ lib=(
     -lutopia
     -lglee
     -lgleex
+    -lglui
     -limgtool
     -lmass
+    -lphoton
+    -lethnic
     $lflag
     -lglfw
     -lfreetype
