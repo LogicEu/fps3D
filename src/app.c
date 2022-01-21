@@ -6,6 +6,8 @@ static void app_init()
     glee_window_create("fps3D", 800, 600, 0, 0);
 
     renderer_init();
+    ui_init();
+    ecs_init();
     runtime_init();
 }
 
@@ -23,6 +25,7 @@ static void app_run()
 static void app_quit()
 {
     glee_deinit();
+    ethnicExit();
     exit(EXIT_SUCCESS);
 }
 

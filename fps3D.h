@@ -37,10 +37,9 @@ typedef struct cam3D {
     mat4 view;
 } cam3D;
 
-typedef struct entity3D {
-    model3D model;
-    vec3 position;
-} entity3D;
+void ecs_init();
+Entity archetype_player(vec3 pos, model3D* model);
+Entity archetype_block(vec3 pos, vec3 dim, model3D* m);
 
 model3D model3D_new(vmesh_t* mesh, texture_t texture, unsigned int id);
 void model3D_free(model3D* model);
@@ -50,11 +49,21 @@ void cam3D_view(cam3D* cam, vec2 dir);
 
 void vmesh_bind(unsigned int id, vmesh_t* mesh);
 
+void scene_init();
+
+bool collision_check(Entity entity);
+
+void ui_init();
+void ui_render(float t, float delta_time);
+
 void renderer_init();
 void render_view(cam3D* cam);
 void render_model(model3D* model, vec3 position);
 void renderer_mode_switch();
 void render_light_position(vec3 position);
+void render_components();
+void render_start();
+void render_finish();
 
 void runtime_init();
 void runtime_update(float delta_time);
@@ -62,7 +71,6 @@ vec2 runtime_mouse();
 
 void player_init();
 void player_update(float delta_time);
-void player_render();
 void player_move(float delta_time);
 
 void editor_init();

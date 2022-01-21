@@ -1,13 +1,21 @@
 #include <fps3D.h>
 
-unsigned int lightshader;
+unsigned int lightshader, framebuffer_shader;
 unsigned int draw_kind;
+unsigned int quadID;
 
+static framebuffer_t framebuffer;
 static mat4 matId;
 static vec3 vZero;
 
 static void renderer_shaders_init()
 {
+    framebuffer = framebuffer_new();
+
+    quadID = glee_buffer_quad_create();
+
+    framebuffer_shader = glee_shader_load("shaders/framebufferv.frag", "shaders/framebufferf.frag");
+
     lightshader = glee_shader_load("shaders/lightv.frag", "shaders/light.frag");
     
     glUniform3f(glGetUniformLocation(lightshader, "global_light.direction"), -0.5f, -1.0f, -0.5f);
@@ -61,7 +69,36 @@ void renderer_init()
     vZero = vec3_uni(0.0);
 
     renderer_shaders_init();
-
-    glee_set_3d_mode();
+    
+    int w, h;
+    glee_window_get_size(&w, &h);
     glee_screen_color(0.5, 0.5, 1.0, 1.0);
+}
+
+void render_components()
+{
+    int size = component_entity_count(0);
+    model3D* model = component_get(2);
+    for (int i = 0; i < size; i++) {
+        vec3 pos = *(vec3*)entity_get(entity_find(0, i), 0);
+        render_model(model++, pos);
+    }
+}
+
+void render_start()
+{
+    framebuffer_bind(framebuffer.id);
+    glee_set_3d_mode();
+    glee_screen_clear();
+}
+
+void render_finish()
+{
+    framebuffer_bind(0);
+
+    glee_set_2d_mode();
+    glUseProgram(framebuffer_shader);
+    glBindVertexArray(quadID);
+    glBindTexture(GL_TEXTURE_2D, framebuffer.texture.id);
+    glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
 }
